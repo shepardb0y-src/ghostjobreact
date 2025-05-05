@@ -24,8 +24,8 @@ plugins: [new HtmlWebpackPlugin({
     filename: 'popup.html',
 }),new CopyPlugin({
     patterns: [
-      { from: "source", to: "dest" },
-      { from: "other", to: "public" },
+      { from: "public"}
+      
     ],
   })]
 
