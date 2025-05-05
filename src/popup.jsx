@@ -1,5 +1,6 @@
 import React from "react";
-import {render} from "react-dom"
+import {render} from "react-dom";
+import { createRoot } from 'react-dom/client';
 
 function Popup(){
    return( <div id="react_target">
@@ -9,4 +10,5 @@ function Popup(){
 }
 
 
-render(<Popup/>,document.getElementById("react_target"))
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
