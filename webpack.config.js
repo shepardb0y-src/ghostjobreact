@@ -1,3 +1,5 @@
+// const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -15,5 +17,8 @@ module.exports = {
     options:{
         presets: ['@babel/preset-env', '@babel/preset-react']
     }
-}}]
-  }}
+}}]},
+plugins: [new HtmlWebpackPlugin({
+    template: './src/popup.html',
+    filename: 'popup.html',
+})],}
