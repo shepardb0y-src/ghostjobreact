@@ -11,4 +11,6 @@ function Popup(){
 
 
 const root = createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<Popup/>);
+
+
