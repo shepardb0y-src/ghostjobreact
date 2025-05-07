@@ -1,39 +1,54 @@
-import React from "react";
-import {render} from "react-dom";
+import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import { GoogleGenAI } from "@google/genai";
-import { output } from "../webpack.config";
 
+const ai = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
 
+function MyPopup() {
+  const [aiResponse, setAiResponse] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    async function fetchAIResponse() {
+      try {
+        const response = await ai.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: "what is a ghost job",
+        });
+        setAiResponse(response);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message || "Failed to fetch AI response");
+        setLoading(false);
+      }
+    }
 
-const ai = new GoogleGenAI({ apiKey: "addapikeyhere" });
+    fetchAIResponse();
+  }, []);
 
-async function main() {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: "what is a ghost job",
-  });
-  const output = (response.text)
-  console.log(output);
+  if (loading) {
+    return <div>Loading AI response...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <div>
+    <div>
+      <h1>AI Response:</h1>
+      <p>{JSON.stringify(aiResponse)}</p>
+    </div>
+    </div>
+  );
 }
 
-await main();
-
-console.log("Service worker started");
-
-
-
-function Popup(){
-   return( <div id="react_target">
-        <h1>{output}</h1>
-        <p>Hello World!</p>
-        <input type="text" />
-    </div>)
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(<MyPopup />);
 }
 
-
-const root = createRoot(document.getElementById('root'));
-root.render(<Popup/>);
-
-
+console.log("Popup script started");
