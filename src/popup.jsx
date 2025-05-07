@@ -7,7 +7,7 @@ import { output } from "../webpack.config";
 
 
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyClq50Sn0amec5G-d1lqVFUkXefo10oVeI" });
+const ai = new GoogleGenAI({ apiKey: "addapikeyhere" });
 
 async function main() {
   const response = await ai.models.generateContent({
