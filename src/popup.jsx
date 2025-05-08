@@ -2,7 +2,7 @@
 // import { createRoot } from 'react-dom/client';
 // import { GoogleGenAI } from "@google/genai";
 // import './styles.css'; // Relative path to the CSS file
-// const ai = new GoogleGenAI({ apiKey: "AIzaSyAuzivdEoa9TWnrpdY-xlHFWb0vR2MuJYU" }); // Replace with your actual API key
+// const ai = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
 
 
 // function MyPopup() {
@@ -97,7 +97,7 @@ import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import { GoogleGenAI } from "@google/genai";
 import './styles.css'; // Relative path to the CSS file
-const ai = new GoogleGenAI({ apiKey: "AIzaSyAuzivdEoa9TWnrpdY-xlHFWb0vR2MuJYU" }); // Replace with your actual API key
+const ai = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
 // import './JobAnalysis.css'; // For styling
 
 const JobAnalysis = () => {
@@ -114,9 +114,9 @@ const JobAnalysis = () => {
 
 
   // Initialize Gemini API (move to env variable in production)
-  const API_KEY = 'AIzaSyAuzivdEoa9TWnrpdY-xlHFWb0vR2MuJYU';
+  
   // const genAI = new GoogleGenerAI(API_KEY);
-  const genAI = new GoogleGenAI({ apiKey: "AIzaSyAuzivdEoa9TWnrpdY-xlHFWb0vR2MuJYU" }); // Replace with your actual API key
+  const genAI = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
   // const model = genAI.models({ model: 'gemini-2.0-flash' });
  
 
