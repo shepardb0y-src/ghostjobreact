@@ -114,7 +114,7 @@ const JobAnalysis = () => {
 
 
   // Initialize Gemini API (move to env variable in production)
-  
+ 
   // const genAI = new GoogleGenerAI(API_KEY);
   const genAI = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
   // const model = genAI.models({ model: 'gemini-2.0-flash' });
