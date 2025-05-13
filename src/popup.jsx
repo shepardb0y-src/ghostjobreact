@@ -1,103 +1,9 @@
-// import React, { useState, useEffect } from "react";
-// import { createRoot } from 'react-dom/client';
-// import { GoogleGenAI } from "@google/genai";
-// import './styles.css'; // Relative path to the CSS file
-// const ai = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
 
-
-// function MyPopup() {
-//   const [aiResponse, setAiResponse] = useState("");
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-
-//   useEffect(() => {
-//     async function fetchAIResponse() {
-//       try {
-//         const response = await ai.models.generateContent({
-//           model: "gemini-2.0-flash",
-//           contents: "what  is the average saalry of a Ai engineer in boston MA",
-//         });
-//         setAiResponse(response);
-//         setLoading(false);
-//       } catch (err) {
-//         setError(err.message || "Failed to fetch AI response");
-//         setLoading(false);
-//       }
-//     }
-
-
-//     fetchAIResponse();
-//     console.log(fetchAIResponse)
-//   }, []);
-
-
-//   if (loading) {
-//     return <div>Loading AI response...</div>;
-//   }
-
-
-//   if (error) {
-//     return <div>Error: {error}</div>;
-//   }
- 
-//   return (
-//     <div>
-//       <div class="container">
-//       {console.log(fetchAIResponse)}
-//         <h1>Ghost Job Hunter</h1>
-//         <p>Detect potentially fake job postings</p>
-//       <div>
-       
-//         {/* <p>{JSON.stringify(aiResponse)}</p> */}
-//       </div>
-       
-//         <div class="form-group">
-//             <label for="jobTitle">Job Title*</label>
-//             <input type="text" id="jobTitle" placeholder="e.g., Software/ Engineer" required/>
-//         </div>
-       
-//         <div class="form-group">
-//             <label for="location">Location*</label>
-//             <input type="text" id="location" placeholder="e.g., San Fran/cisco, CA" required/>
-//         </div>
-       
-//         <div class="form-group">
-//             <label for="salary">Posted Salary (optional)</label>
-//             <input type="text" id="salary" placeholder="e.g., $120,000"/>
-//         </div>
-       
-//         <div class="form-group">
-//             <label for="postingDate">Posting Date (optional)</label>
-//             <input type="date" id="postingDate"/>
-//         </div>
-//         /
-//         <div class="form-group">
-//             <label for="applicants">Number of Applicants (optional)</label>
-//             <input type="number" id="applicants" placeholder="e.g., 250"/>
-//         </div>
-       
-//         <button id="checkButton">Analyze Job Posting</button>
-       
-//         <div id="result"></div>
-//     </div>
-   
-//     </div>
-//   );
-// }
-
-
-// const rootElement = document.getElementById('root');
-// if (rootElement) {
-//   const root = createRoot(rootElement);
-//   root.render(<MyPopup />);
-// }
-// console.log("Popup script started");
 import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
-import { GoogleGenAI } from "@google/genai";
+
 import './styles.css'; // Relative path to the CSS file
-const ai = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
+
 // import './JobAnalysis.css'; // For styling
 
 const JobAnalysis = () => {
@@ -112,87 +18,40 @@ const JobAnalysis = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+const getAverageSalary = async (jobTitle, location) => {
+  try {
+    const promptContent = `What is the average salary for a ${jobTitle} in ${location}? Provide only the numeric value. Do not include any symbols, or words.`;
 
-  // Initialize Gemini API (move to env variable in production)
- 
-  // const genAI = new GoogleGenerAI(API_KEY);
-  const genAI = new GoogleGenAI({ apiKey: "" }); // Replace with your actual API key
-  // const model = genAI.models({ model: 'gemini-2.0-flash' });
- 
+    console.log("Sending Prompt to Proxy:", promptContent);
 
-  // const response = await ai.models.generateContent({
-  //   //           model: "gemini-2.0-flash",
-  //   //           contents: "what  is the average saalry of a Ai engineer in boston MA",
-  //   //         });
-
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setJobDetails(prev => ({ ...prev, [name]: value }));
-  };
-
-
-  // const getAverageSalary = async (jobTitle, location) => {
-  //   try {
-  //     // const contents = `What is the average salary for a ${jobTitle} in ${location}? Provide only the numeric value. Do not include any symbols, or words.`;
-  //     // const result = await model.generateContent(prompt);
-  //     const result = await ai.models.generateContent({
-  //             model: "gemini-2.0-flash",
-  //             contents: `What is the average salary for a ${jobTitle} in ${location}? Provide only the numeric value. Do not include any symbols, or words.`,
-  //           });
-  //     const response = result;
-  //     // return parseFloat(response.text());
-  //     return console.log(response,jobTitle,location)
-  //   } catch (error) {
-  //     console.error('Gemini API error:', error);
-
-  //     throw new Error("Failed to retrieve salary information.");
-  //   }
-  // };
-  // const getAverageSalary = async (jobTitle, location) => {
-  //   try {
-  //     const result = await ai.models.generateContent({
-  //       model: "gemini-2.0-flash",
-  //       contents: `What is the average salary for a ${jobTitle} in ${location}? Provide only the numeric value. Do not include any symbols, or words.`,
-  //     });
-  //     console.log("Gemini API Result:", result); // For debugging
-  
-  //     if (result && result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
-  //       const text = result.candidates[0].content.parts[0].text.trim(); // Trim any extra whitespace
-  //       return parseFloat(text);
-  //     } else {
-  //       console.warn("Unexpected API response structure:", result);
-  //       throw new Error("Failed to parse salary information from the response.");
-  //     }
-  //   } catch (error) {
-  //     console.error('Gemini API error:', error);
-  //     throw new Error("Failed to retrieve salary information.");
-  //   }
-  // };
-  const getAverageSalary = async (jobTitle, location) => {
-    try {
-      const promptContent = `What is the average salary for a ${jobTitle} in ${location}? Provide only the numeric value. Do not include any symbols, or words.`;
-      console.log("Sending Prompt:", promptContent); // Log the prompt
-  
-      const result = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: promptContent,
-      });
-      console.log("Gemini API Result:", result); // For debugging
-  
-      if (result && result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
-        const text = result.candidates[0].content.parts[0].text.trim();
-        return parseFloat(text);
-      } else {
-        console.warn("Unexpected API response structure:", result);
-        throw new Error("Failed to parse salary information from the response.");
+    const response = await fetch(
+      "https://us-central1-ghost-job-proxy-f33da.cloudfunctions.net/geminiProxy",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: promptContent }),
       }
-    } catch (error) {
-      console.error('Gemini API error:', error);
-      throw new Error("Failed to retrieve salary information.");
+    );
+
+    const data = await response.json();
+    console.log("Proxy API Result:", data);
+
+    const salaryString = data?.text?.trim() ?? "";
+    const averageSalary = parseFloat(salaryString);
+
+    if (isNaN(averageSalary)) {
+      throw new Error("Could not parse a numeric salary from Gemini response.");
     }
-  };
+
+    return averageSalary;
+  } catch (error) {
+    console.error("Proxy API error:", error);
+    throw new Error("Failed to retrieve salary information.");
+  }
+};
+
+
+
   
   // // Example usage for a cook in Boston:
   // getAverageSalary("cook", "Boston, Massachusetts")
@@ -247,7 +106,13 @@ const JobAnalysis = () => {
     return { risk, reasons };
   };
 
-
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setJobDetails(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
   const analyzeJob = async (e) => {
     e.preventDefault();
     setLoading(true);
