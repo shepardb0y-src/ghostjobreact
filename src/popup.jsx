@@ -60,13 +60,19 @@ const getAverageSalary = async (jobTitle, location) => {
     const parsedApplicants = typeof applicants === 'string' ? parseInt(applicants) : applicants;
 
 
-    if (averageSalary !== null && !isNaN(parsedSalary)) {
-      const salaryDifference = (averageSalary - parsedSalary) / averageSalary;
-      if (salaryDifference > 0.3 || parsedSalary === 0) {
-        risk = 'high';
-        reasons.push(`Salary is more than 30% lower than the average, this is a red flag 🚩(${(salaryDifference * 100).toFixed(2)}%)`);
-      }
+if (averageSalary !== null && !isNaN(parsedSalary)) {
+  const salaryDifference = (parsedSalary - averageSalary) / averageSalary;
+
+  if (Math.abs(salaryDifference) > 0.3) {
+    risk = 'high';
+
+    if (salaryDifference > 0.3) {
+      reasons.push(`Salary is more than 30% **above** average, this is a red flag 🚩 (+${(salaryDifference * 100).toFixed(2)}%)`);
+    } else if (salaryDifference < -0.3) {
+      reasons.push(`Salary is more than 30% **below** average, this is a red flag 🚩 (${(salaryDifference * 100).toFixed(2)}%)`);
     }
+  }
+}
 
       if ( parsedSalary === 0) {
         risk = 'high';
@@ -144,7 +150,7 @@ const handleInputChange = (e) => {
 
   return (
     <div className="job-analysis-container">
-      <h2>Job Posting Risk Analyzer</h2>
+      <h2>Ghost Job Hunter</h2>
       <form onSubmit={analyzeJob}>
         <div className="form-group">
           <label>Job Title:</label>
