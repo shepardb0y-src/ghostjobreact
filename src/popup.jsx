@@ -150,7 +150,10 @@ const handleInputChange = (e) => {
 
   return (
     <div className="job-analysis-container">
+      <div className="ghost-job-label-and-icon">
+          <img src="icon48.png" alt="ghost-job-hunter-icon" />
       <h2>Ghost Job Hunter</h2>
+          </div>
       <form onSubmit={analyzeJob}>
         <div className="form-group">
           <label>Job Title:</label>
