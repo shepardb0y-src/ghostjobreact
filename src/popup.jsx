@@ -52,16 +52,6 @@ const getAverageSalary = async (jobTitle, location) => {
 
 
 
-  
-  // // Example usage for a cook in Boston:
-  // getAverageSalary("cook", "Boston, Massachusetts")
-  //   .then(salary => console.log("Average Salary for a cook in Boston:", salary))
-  //   .catch(error => console.error(error));
-  // // Example usage:
-  // getAverageSalary("Software Engineer", "Randolph, Massachusetts")
-  //   .then(salary => console.log("Average Salary:", salary))
-  //   .catch(error => console.error(error));
-
   const calculateRisk = (salary, averageSalary, applicants, postingDate) => {
     let risk = 'low';
     let reasons = [];
@@ -72,17 +62,23 @@ const getAverageSalary = async (jobTitle, location) => {
 
     if (averageSalary !== null && !isNaN(parsedSalary)) {
       const salaryDifference = (averageSalary - parsedSalary) / averageSalary;
-      if (salaryDifference > 0.3) {
+      if (salaryDifference > 0.3 || parsedSalary === 0) {
         risk = 'high';
-        reasons.push(`Salary is more than 30% lower than the average (${(salaryDifference * 100).toFixed(2)}%)`);
+        reasons.push(`Salary is more than 30% lower than the average, this is a red flag 🚩(${(salaryDifference * 100).toFixed(2)}%)`);
       }
     }
+
+      if ( parsedSalary === 0) {
+        risk = 'high';
+        reasons.push(`Salary was not listed, this is a red flag 🚩`);
+      }
+    
 
 
     if (!isNaN(parsedApplicants)) {
       if (parsedApplicants > 250) {
         risk = 'high';
-        reasons.push('More than 250 applicants');
+        reasons.push('More than 250 applicants, this is a red flag 🚩');
       }
     }
 
@@ -93,7 +89,7 @@ const getAverageSalary = async (jobTitle, location) => {
       const diffInDays = Math.floor((today - postDate) / (1000 * 60 * 60 * 24));
       if (diffInDays > 30) {
         risk = 'high';
-        reasons.push('Job posting is over 30 days old');
+        reasons.push('Job posting is over 30 days old, this is a red flag 🚩');
       }
     }
 
@@ -127,7 +123,7 @@ const handleInputChange = (e) => {
       if (reasons.length > 0) {
         resultText += `Reasons: ${reasons.join(', ')}`;
       } else {
-        resultText += "No significant risks detected.";
+        resultText += "No significant risks detected. 🟢";
       }
      
       setAnalysisResult({
